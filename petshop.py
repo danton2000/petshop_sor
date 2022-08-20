@@ -5,26 +5,31 @@ app = Flask(__name__)
 produtos_list = [
     {
         'nome': 'Ração',
+        'url_link': 'racao',
         'descricao': 'Comida para cães',
         'destaque': 1
     },
     {
-        'nome': 'Coleira',
+        'nome': 'Coleiras',
+        'url_link': 'coleira',
         'descricao': 'Coleira para cães',
         'destaque': 1
     },
     {
-        'nome': 'Roupa',
+        'nome': 'Roupas',
+        'url_link': 'roupas',
         'descricao': 'Roupa para cães',
         'destaque': 1
     },
     {
         'nome': 'Brinquedos',
+        'url_link': 'brinquedos',
         'descricao': 'Brinquedos para cães'
         
     },
     {
         'nome': 'Cama',
+        'url_link': 'cama',
         'descricao': 'Cama para cães'
     }
 ]
@@ -72,15 +77,14 @@ def produtos():
 def produtos_detalhes(produto_nome):
 
     for produto in produtos_list:
-
-        if produto_nome == produto['nome']:
-
+        print(produto)
+        if produto_nome == produto['url_link']:
+            
             return render_template(
                 "produto_detalhes.html",
-                nome=produto_nome,
+                nome=produto['nome'],
                 produto=produto
-            )
-        return render_template("produto_detalhes.html", nome=produto_nome)     
+            )   
     
 
 @app.route("/servicos/")

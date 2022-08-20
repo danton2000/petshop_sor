@@ -4,7 +4,7 @@
     <p>Temos todos os produtos para que a vida do seu PET seja confortável e feliz</p>
     <ul>
         {% for produto in produtos %}
-            <li><a href="/produtos/{{produto['nome']}}/detalhes">{{produto['nome']}}</a></li>
+            <li><a href="/produtos/{{produto['url_link']}}/detalhes">{{produto['nome']}}</a></li>
         {% endfor %}
     </ul>
 
