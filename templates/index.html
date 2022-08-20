@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block conteudo %}
+
+<p>Empresa especializada no cuidado do seu <strong>PET</strong>.</p>
+        
+    <ul>
+        <li>
+            <h4><a href="/produtos">Produtos</a></h4>
+            <ul>
+                {% for produto in produtos %}
+                    <li>{{produto['nome']}}</li>
+                {% endfor %}
+            </ul>
+        </li>
+        <li>
+            <h4><a href="/servicos">Serviços</h4><a></h4>
+            <ul>
+                {% for servicos in servicos %}
+                    <li>{{servicos['nome']}}</li>
+                {% endfor %}
+            </ul>
+        </li> 
+    </ul>
+{% endblock %}
