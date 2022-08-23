@@ -1,0 +1,8 @@
+CREATE TABLE servicos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    url_link VARCHAR(255) NOT NULL,
+    descricao VARCHAR(255) NOT NULL,
+    preco DECIMAL(5,2) NOT NULL,
+    destaque BOOLEAN NOT NULL
+)

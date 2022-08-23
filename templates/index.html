@@ -16,8 +16,8 @@
         <li>
             <h4><a href="/servicos">Serviços</h4><a></h4>
             <ul>
-                {% for servicos in servicos %}
-                    <li>{{servicos['nome']}}</li>
+                {% for servico in servicos %}
+                    <li><a href="/servicos/{{servico[1]}}/detalhes">{{servico[0]}}</a></li>
                 {% endfor %}
             </ul>
         </li> 

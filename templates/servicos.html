@@ -4,7 +4,7 @@
     <p>Temos todos os servicos para que a vida do seu PET seja confortável e feliz</p>
     <ul>
         {% for servico in servicos %}
-            <li><a href="/servicos/{{servico['url_link']}}/detalhes">{{servico['nome']}}</a></li>
+            <li><a href="/servicos/{{servico[1]}}/detalhes">{{servico[0]}}</a></li>
         {% endfor %}
     </ul>
 
