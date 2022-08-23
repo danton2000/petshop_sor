@@ -1,92 +1,97 @@
 from flask import Flask, render_template
 
-app = Flask(__name__)
+import sqlite3
 
-produtos_list = [
-    {
-        'nome': 'Ração',
-        'url_link': 'racao',
-        'descricao': 'Comida para cães',
-        'destaque': 1
-    },
-    {
-        'nome': 'Coleiras',
-        'url_link': 'coleira',
-        'descricao': 'Coleira para cães',
-        'destaque': 1
-    },
-    {
-        'nome': 'Roupas',
-        'url_link': 'roupas',
-        'descricao': 'Roupa para cães',
-        'destaque': 1
-    },
-    {
-        'nome': 'Brinquedos',
-        'url_link': 'brinquedos',
-        'descricao': 'Brinquedos para cães'
-        
-    },
-    {
-        'nome': 'Cama',
-        'url_link': 'cama',
-        'descricao': 'Cama para cães'
-    }
-]
+app = Flask(__name__)
 
 servicos_list = [
     {
         'nome': 'Banho',
+        'url_link': 'banho',
+        'preco': 'R$ 10,00',
         'destaque': 1
     },
     {
         'nome': 'Ducha e Corte na régua',
+        'url_link': 'ducha',
+        'preco': 'R$ 10,00',
         'destaque': 1
     },
     {
-        'nome': 'Creche'
+        'nome': 'Creche',
+        'url_link': 'creche',
+        'preco': 'R$ 10,00',
     }
 ]
 
 @app.route("/")
 def index():
 
-    produtos_destaques = []
-
-    for produto in produtos_list:
-
-        if 'destaque' in produto:
-
-            produtos_destaques.append(produto)
-
     servicos_destaques = []
 
-    for servico in servicos_list:
+    con = sqlite3.connect('petshop.db')
 
-        if 'destaque' in servico:
+    cur = con.cursor()
 
-            servicos_destaques.append(servico)
+    cur.execute("SELECT nome, url_link FROM produtos WHERE destaque = 1 ORDER BY nome")
 
-    return render_template("index.html", produtos=produtos_destaques, servicos=servicos_destaques)
+    destaque_produtos_bd = cur.fetchall()
+
+    con.close()
+
+    return render_template("index.html", produtos=destaque_produtos_bd, servicos=servicos_destaques)
 
 @app.route("/produtos/")
 def produtos():
-    return render_template("produtos.html", produtos=produtos_list)
+
+    con = sqlite3.connect("petshop.db")
+
+    cur = con.cursor()
+
+    cur.execute("SELECT nome, url_link FROM produtos")
+
+    #lista
+    produtos_bd = cur.fetchall()
+
+    con.close()    
+
+    return render_template("produtos.html", produtos=produtos_bd)
 
 @app.route("/produtos/<produto_nome>/detalhes")
 def produtos_detalhes(produto_nome):
 
-    for produto in produtos_list:
-        print(produto)
-        if produto_nome == produto['url_link']:
-            
-            return render_template(
-                "produto_detalhes.html",
-                nome=produto['nome'],
-                produto=produto
-            )   
+    con = sqlite3.connect("petshop.db")
+
+    cur = con.cursor()
+
+    cur.execute(
+        "SELECT nome, descricao, preco FROM produtos WHERE url_link = ?",
+        (produto_nome,))
+
+    # (,) tupla de 1 tem requer uma virgual
+
+    #lista, retorna só 1 tupla
+    produto_bd = cur.fetchone()
+
+    con.close()   
+
+    return render_template(
+        "produto_detalhes.html",
+        produto=produto_bd
+    )       
     
 
 @app.route("/servicos/")
 def servicos():
     return render_template("servicos.html", servicos=servicos_list)
+
+@app.route("/servicos/<servico_nome>/detalhes")
+def servicos_detalhes(servico_nome):
+
+    for servico in servicos_list:
+        if servico_nome == servico['url_link']:
+            
+            return render_template(
+                "servico_detalhes.html",
+                servico=servico
+            )

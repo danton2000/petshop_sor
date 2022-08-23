@@ -3,8 +3,8 @@
 {% block conteudo %}
     <p>Temos todos os servicos para que a vida do seu PET seja confortável e feliz</p>
     <ul>
-        {% for servicos in servicos %}
-            <li>{{servicos['nome']}}</li>
+        {% for servico in servicos %}
+            <li><a href="/servicos/{{servico['url_link']}}/detalhes">{{servico['nome']}}</a></li>
         {% endfor %}
     </ul>
 
