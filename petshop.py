@@ -7,8 +7,6 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 
-    servicos_destaques = []
-
     con = sqlite3.connect('petshop.db')
 
     cur = con.cursor()
