@@ -1,5 +1,5 @@
-from flask import Flask, render_template
-
+from flask import Flask, render_template, request, redirect, url_for
+# request todo conteudo que o usuário enviou para a gente
 import sqlite3
 
 app = Flask(__name__)
@@ -102,4 +102,76 @@ def servicos_detalhes(servico_nome):
     return render_template(
         "servico_detalhes.html",
         servico=servico_bd
-    )       
+    )  
+
+#preparando a rota para receber as requisões do tipo get e post
+@app.route('/servicos/servico-cadastro', methods=('GET', 'POST'))
+def servicos_cadastro():
+
+    #quer enviar algo junto
+    if request.method == 'POST':
+
+        nome = request.form['txt_nome']
+
+        url_link = request.form['txt_url_link']
+
+        descricao = request.form['txt_descricao']
+
+        preco = request.form['txt_preco']
+
+        destaque = 0
+
+        if 'cbx_destaque' in request.form:
+            destaque = 1
+
+        con = sqlite3.connect('petshop.db')
+
+        cur = con.cursor()
+
+        cur.execute(f"INSERT INTO servicos ( nome, url_link, descricao, preco, destaque ) VALUES ('{nome}', '{url_link}', '{descricao}', '{preco}', {destaque})")
+
+        con.commit()
+
+        con.close
+
+        #redirecionando o cliente para a rota de servicos
+
+        return redirect(url_for('servicos'))
+
+
+    return render_template('servico-cadastro.html')
+
+@app.route('/produtos/produto-cadastro', methods=('GET', 'POST'))
+def produto_cadastro():
+
+    #quer enviar algo junto
+    if request.method == 'POST':
+
+        nome = request.form['txt_nome']
+
+        url_link = request.form['txt_url_link']
+
+        descricao = request.form['txt_descricao']
+
+        preco = request.form['txt_preco']
+
+        destaque = 0
+
+        if 'cbx_destaque' in request.form:
+            destaque = 1
+
+        con = sqlite3.connect('petshop.db')
+
+        cur = con.cursor()
+
+        cur.execute(f"INSERT INTO produtos ( nome, url_link, descricao, preco, destaque ) VALUES ('{nome}', '{url_link}', '{descricao}', '{preco}', {destaque})")
+
+        con.commit()
+
+        con.close
+
+        #redirecionando o cliente para a rota de servicos
+
+        return redirect(url_for('servicos'))
+
+    return render_template('produto-cadastro.html')     

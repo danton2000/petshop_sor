@@ -1,0 +1,32 @@
+{% extends "base.html"%}
+
+{% block conteudo %}
+    <h2>Cadastro de Serviços</h2>
+
+    <form method="post">
+        <label for="txt_nome">Nome</label>
+    
+        <input type="text" name="txt_nome" id="txt_nome" required>
+
+        <label for="txt_url_link">Url Link</label>
+    
+        <input type="text" name="txt_url_link" id="txt_url_link" required>
+
+        <label for="txt_descricao">Descrição</label>
+    
+        <input type="text" name="txt_descricao" id="txt_descricao" required>
+
+        <label for="txt_preco">Preço</label>
+    
+        <input type="number" name="txt_preco" id="txt_preco" required>
+
+        <label for="cbx_destaque">Destaque</label>
+
+        <input type="checkbox" name="cbx_destaque" id="cbx_destaque">
+
+        <input type="submit" value="Salvar">
+
+    </form>
+
+    <a href="/">Voltar</a>
+{% endblock %}
